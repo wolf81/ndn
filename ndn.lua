@@ -11,7 +11,6 @@ return function(dice_str)
 
 	-- simplify for min/max calculations
 	die_count = die_sign == "-" and -die_count or die_count
-	die_value = die_value
 	mod_value = mod_sign == "" and 0 or mod_sign == "-" and -mod_value or mod_value
 
 	-- calculate min and max values
