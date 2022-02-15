@@ -16,17 +16,15 @@ local dice_types = {
 }
 
 -- lets roll each dice pair multiple times
-local rolls = 10
-
--- roll each die n times; print values, print average
+local rolls = 1000
 for _, dice in ipairs(dice_types) do
 	print(dice)
 	local avg = 0
-	for i = 1, 1000 do
+	for i = 1, rolls do
 		local v = dice() -- lets roll
 		avg = avg + v
 		print("v: " .. v)
 	end
-	print("avg: " .. avg / rolls)
+	print("avg of " .. rolls .. " rolls: " .. avg / rolls)
 end
 ```
