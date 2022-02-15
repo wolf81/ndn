@@ -37,5 +37,6 @@ for _, dice in ipairs(dice_types) do
 end
 
 function love.load( ... )
+    love.window.setTitle("ndn")
 	print("love")
 end
