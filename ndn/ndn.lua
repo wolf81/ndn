@@ -3,7 +3,7 @@
 return function(die_str)
 	-- parse using regular expressions
 	local die_sign, die_count, die_value, mod_sign, mod_value = 
-		string.match(die_str, "^(%-?)(%d)d(%d)([%+%-]?)(%d?)$")
+		string.match(die_str, "^(%-?)(%d+)d(%d+)([%+%-]?)(%d*)$")
 
 	if die_count == nil or die_value == nil then
 		error("invalid dice string: " .. die_str)

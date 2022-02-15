@@ -2,41 +2,62 @@ io.stdout:setvbuf('no') -- show debug output live in SublimeText console
 
 local ndn = require "ndn"
 
--- create 3 dice types
-local dice_types = {
-    ndn("4d6+1"), 
-    ndn("-2d4+5"), 
-    ndn("1d6"),
-    ndn("2d6"),
-    ndn("3d6"),
-}
+-- run app with LÖVE - press "g" to generate a new random set of dice and roll 
 
--- lets roll each dice pair multiple times
-local rolls = 10000
+local function generate()
+    local n_rolls = 10000
 
-print("\n\n")
+    local die_count_min, die_count_max = -5, 5
+    local die_types = { 4, 6, 8, 12 }
+    local die_mod_min, die_mod_max = -15, 15
 
--- roll each die n times; print values, print average
-for _, dice in ipairs(dice_types) do
+    local d1 = math.random(die_count_min, die_count_max)
+    local d2 = die_types[math.random(1, #die_types)]
+    local die_string = d1 .. "d" .. d2
+
+    if math.random(2) == 1 then
+        local d3 = math.random(die_mod_min, die_mod_max)
+        die_string = die_string .. (d3 >= 0 and "+" or "") .. d3
+    end
+
+    local dice = ndn(die_string)
+
     local min, max = dice.range()
-    print(tostring(dice) .. " (" .. min .. " ... " .. max .. ")")
+    print("dice: " .. tostring(dice))
+    print("\nrange: (" .. min .. " ... " .. max .. ")")
     local avg = 0
     local values = {}
-    for i = 1, rolls do
+
+    for i = min, max do
+        values[i] = 0
+    end
+
+    for i = 1, n_rolls do
         local v = dice() -- lets roll
         avg = avg + v
-        if values[v] == nil then values[v] = 0 end
         values[v] = values[v] + 1
     end
-    print("\navg: " .. avg / rolls)
 
-    for i, v in pairs(values) do
+    print("\nv", "%")
+
+    for i = min, max do
+        local v = values[i] / n_rolls * 100
         print(i, v)
     end
-    print()
+
+    print("\naverage: " .. avg / n_rolls)
+
+    print("\n------\n")
 end
 
 function love.load( ... )
     love.window.setTitle("ndn")
-	print("love")
+
+    generate()
+end
+
+function love.keypressed(key, code)
+    if key == "g" then
+        generate()
+    end
 end
