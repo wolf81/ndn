@@ -61,7 +61,7 @@ return function(die_str)
 	}
 	
 	-- add __tostring function for debug purposes
-	-- if no argument provided, call roll() from the public interface
+	-- if no function provided, call roll() from the public interface
 	setmetatable(ndn, {
 		__call = roll,
 		__tostring = function() return die_str end,
