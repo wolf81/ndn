@@ -54,27 +54,19 @@ printing out the results in the console. Press "g" to generate new random dice.
 The program displays results as such:
 
 ```
-dice: 3d6
+3d4+8 (11 ... 20)
 
-range: (3 ... 18)
+#   %
+11  2
+12  4.33
+13  9.46
+14  15.45
+15  18.88
+16  18.56
+17  15.67
+18  9.16
+19  4.89
+20  1.6
 
-v	%
-3	0.52
-4	1.45
-5	2.58
-6	4.83
-7	7.01
-8	8.84
-9	11.87
-10	12.39
-11	13.01
-12	11.74
-13	9.54
-14	6.76
-15	4.62
-16	2.75
-17	1.6
-18	0.49
-
-average: 10.5173
+average: 15.4958
 ```

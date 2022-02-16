@@ -23,8 +23,7 @@ local function generate()
     local dice = ndn(die_string)
 
     local min, max = dice.range()
-    print("dice: " .. tostring(dice))
-    print("\nrange: (" .. min .. " ... " .. max .. ")")
+    print(tostring(dice) .. " (" .. min .. " ... " .. max .. ")")
     local avg = 0
     local values = {}
 
@@ -43,7 +42,7 @@ local function generate()
         end
     end
 
-    print("\nv", "%")
+    print("\n#", "%")
 
     for i = min, max do
         local v = values[i] / n_rolls * 100
