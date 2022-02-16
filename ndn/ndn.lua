@@ -31,8 +31,6 @@ return function(die_str)
 
 	-- cast to number, since the sign makes these values default to string
 	die_count = die_count and tonumber(die_count) or 1
-
-	-- cast to number, since the sign makes these values default to string
 	die_mod = die_mod and tonumber(die_mod) or 0
 
 	-- calculate min and max values so we can return the range of the numbers
