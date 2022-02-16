@@ -5,12 +5,12 @@ We want to parse strings like: d20, 4d6, -2d6, 12d4+12, -2d12-5
 We use the following regex pattern: 
 	^(%-?%d*)d(%d+)([%+%-]?%d*)$
 
-^: anchor at start of line
-(%-?%d*): 		match optional '-' followed by 0+ digits in first capture group
-d: 				match d character
-(%d+): 			match 1 or more digits in second capture group
-([%+%-]?%d*): 	match optional '-' or '+' followed by 0+ digits in third capure group
-$: 				anchor at end of line
+^:				anchor at start of line
+(%-?%d*):		match optional '-' followed by 0+ digits in first capture group
+d:				match d character
+(%d+):			match 1 or more digits in second capture group
+([%+%-]?%d*):	match optional '-' or '+' followed by 0+ digits in third capure group
+$:				anchor at end of line
 
 The above pattern isn't perfect but it's good enough to filter out most invalid 
 strings. Additional edge cases are handled by validating each capture group.
