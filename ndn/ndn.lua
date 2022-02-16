@@ -1,32 +1,46 @@
--- should be able to parse strings like 4d6, 1d8+2, 2d4-2, -1d6
+--[[
+
+We want to parse strings like: d20, 4d6, -2d6, 12d4+12, -2d12-5
+
+We use the following regex pattern: 
+	^(%-?%d*)d(%d+)([%+%-]?%d*)$
+
+^: anchor at start of line
+(%-?%d*): 		match optional '-' followed by 0+ digits in first capture group
+d: 				match d character
+(%d+): 			match 1 or more digits in second capture group
+([%+%-]?%d*): 	match optional '-' or '+' followed by 0+ digits in third capure group
+$: 				anchor at end of line
+
+The above pattern isn't perfect but it's good enough to filter out most invalid 
+strings. Additional edge cases are handled by validating each capture group.
+--]] 
 
 return function(die_str)
--- ^(%-?%d*)d(%d*)([+|-]%d*)?$
 	-- parse using regular expressions
-	local die_count, die_value, mod_sign, die_mod = 
-		string.match(die_str, "^(%-?%d+)d(%d+)([%+%-]?)(%d*)$")
+	local die_count, die_value, die_mod = 
+		string.match(die_str, "^(%-?%d*)d(%d+)([%+%-]?%d*)$")
 
-	-- cast to number, since due to included sign it will default to a string
-	die_count = tonumber(die_count)
-
-	print(die_str, die_count, die_value, mod_sign, die_mod)
-
-	if die_count == nil or die_value == nil then
-		error("invalid dice string: " .. die_str)
+	-- filter out any invalid capture groups
+	if die_count == nil or die_value == nil or die_mod == "-" or die_mod == "+" then
+		error("invalid die string: " .. die_str)
 	end
 
-	-- simplify for min/max calculations
-	die_mod = mod_sign == "" and 0 or mod_sign == "-" and -die_mod or die_mod
+	-- if die_str is like -d4, then assume -1d4
+	if die_count == '-' then die_count = -1 end
 
-	-- calculate the minimum base value of all the dice
-	local die_base = die_mod
+	-- cast to number, since the sign makes these values default to string
+	die_count = die_count and tonumber(die_count) or 1
 
-	-- calculate min and max values
+	-- cast to number, since the sign makes these values default to string
+	die_mod = die_mod and tonumber(die_mod) or 0
+
+	-- calculate min and max values so we can return the range of the numbers
 	local min = die_count + die_mod
 	local max = die_count * die_value + die_mod
 	if max < min then max, min = min, max end
 
-	-- calculate min and max values of a single die roll
+	-- calculate min and max values for a single die roll
 	local factor = die_count < 0 and -1 or 1
 	local die_min = factor
 	local die_max = factor * die_value 

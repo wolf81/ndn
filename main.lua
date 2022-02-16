@@ -15,8 +15,6 @@ local function generate()
     local d2 = die_types[math.random(1, #die_types)]
     local die_string = d1 .. "d" .. d2
 
-    --die_string = "d20"
-
     if math.random(2) == 1 then
         local d3 = math.random(die_mod_min, die_mod_max)
         die_string = die_string .. (d3 >= 0 and "+" or "") .. d3
