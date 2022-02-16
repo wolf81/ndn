@@ -1,40 +1,43 @@
 -- should be able to parse strings like 4d6, 1d8+2, 2d4-2, -1d6
 
 return function(die_str)
+-- ^(%-?%d*)d(%d*)([+|-]%d*)?$
 	-- parse using regular expressions
-	local die_sign, die_count, die_value, mod_sign, mod_value = 
-		string.match(die_str, "^(%-?)(%d+)d(%d+)([%+%-]?)(%d*)$")
+	local die_count, die_value, mod_sign, die_mod = 
+		string.match(die_str, "^(%-?%d+)d(%d+)([%+%-]?)(%d*)$")
+
+	-- cast to number, since due to included sign it will default to a string
+	die_count = tonumber(die_count)
+
+	print(die_str, die_count, die_value, mod_sign, die_mod)
 
 	if die_count == nil or die_value == nil then
 		error("invalid dice string: " .. die_str)
 	end
 
 	-- simplify for min/max calculations
-	die_sign = die_sign == "-" and -1 or 1
-	mod_value = mod_sign == "" and 0 or mod_sign == "-" and -mod_value or mod_value
+	die_mod = mod_sign == "" and 0 or mod_sign == "-" and -die_mod or die_mod
 
 	-- calculate the minimum base value of all the dice
-	local die_base = mod_value
-	if die_sign == -1 then
-		die_base = die_base - die_count * die_value - 1
-	end
+	local die_base = die_mod
 
 	-- calculate min and max values
-	local min = mod_value + die_sign * die_count
-	local max = mod_value + die_sign * die_count * die_value
+	local min = die_count + die_mod
+	local max = die_count * die_value + die_mod
 	if max < min then max, min = min, max end
 
 	-- calculate min and max values of a single die roll
-	local die_min = 1 * die_sign
-	local die_max = die_value * die_sign
+	local factor = die_count < 0 and -1 or 1
+	local die_min = factor
+	local die_max = factor * die_value 
 	if die_max < die_min then die_min, die_max = die_max, die_min end
-	
+
 	-- private state
 	local self = {
 		die_count = die_count,
 		die_min = die_min,
 		die_max = die_max,
-		die_mod = mod_value,
+		die_mod = die_mod,
 		range = { min, max },
 	}	
 
@@ -42,7 +45,7 @@ return function(die_str)
 	local roll = function() 
 		local v = self.die_mod
 
-		for i = 1, self.die_count do
+		for i = 1, math.abs(self.die_count) do
 			v = v + math.random(self.die_min, self.die_max)
 		end
 
