@@ -44,12 +44,15 @@ return function(die_str)
 	local die_max = factor * die_value 
 	if die_max < die_min then die_min, die_max = die_max, die_min end
 
+	local average = math.floor((min + max) / 2)
+
 	-- private state
 	local self = {
 		die_count = die_count,
 		die_min = die_min,
 		die_max = die_max,
 		die_mod = die_mod,
+		average = average,
 		range = { min, max },
 	}	
 
@@ -67,6 +70,10 @@ return function(die_str)
 	-- return minimum and maximum values of a roll
 	local range = function()
 		return unpack(self.range)
+	end
+
+	local average = function()
+		return self.average
 	end
 
 	-- the public interface
