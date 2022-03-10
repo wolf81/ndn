@@ -72,6 +72,10 @@ return function(die_str)
 		return unpack(self.range)
 	end
 
+	local max = function()
+		return self.range[2]
+	end
+
 	local average = function()
 		return self.average
 	end
@@ -79,7 +83,9 @@ return function(die_str)
 	-- the public interface
 	local dice = {
 		roll = roll,
-		range = range,		
+		range = range,	
+		average = average,	
+		max = max,
 	}
 	
 	-- add __tostring function for debug purposes
