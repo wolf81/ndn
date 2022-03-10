@@ -29,6 +29,6 @@ local ndn = {
 	]],	
 }
 
-local ndn = require(PATH .. ".ndn")
+ndn.roll = require(PATH .. ".ndn")
 
 return ndn
