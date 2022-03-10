@@ -77,17 +77,17 @@ return function(die_str)
 	end
 
 	-- the public interface
-	local ndn = {
+	local dice = {
 		roll = roll,
 		range = range,		
 	}
 	
 	-- add __tostring function for debug purposes
 	-- if no function provided, call roll() from the public interface
-	setmetatable(ndn, {
+	setmetatable(dice, {
 		__call = roll,
 		__tostring = function() return die_str end,
 	})
 
-	return ndn
+	return dice
 end
