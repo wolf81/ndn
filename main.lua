@@ -20,7 +20,7 @@ local function generate()
         die_string = die_string .. (d3 >= 0 and "+" or "") .. d3
     end
 
-    local dice = ndn(die_string)
+    local dice = ndn.dice(die_string)
 
     local min, max = dice.range()
     print(tostring(dice) .. " (" .. min .. " ... " .. max .. ")")

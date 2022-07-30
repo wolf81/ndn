@@ -1,4 +1,4 @@
-local mrandom, mabs = love.math.random or math.random, math.abs
+local mrandom, mabs, mfloor = love.math.random or math.random, math.abs, math.floor
 
 --[[
 
@@ -46,7 +46,7 @@ return function(die_str)
 	local die_max = factor * die_value 
 	if die_max < die_min then die_min, die_max = die_max, die_min end
 
-	local average = math.floor((min + max) / 2)
+	local average = mfloor((min + max) / 2)
 
 	-- private state
 	local self = {
