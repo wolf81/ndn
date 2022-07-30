@@ -1,3 +1,5 @@
+local mrandom, mabs = love.math.random or math.random, math.abs
+
 --[[
 
 We want to parse strings like: d20, 4d6, -2d6, 12d4+12, -2d12-5
@@ -60,8 +62,8 @@ return function(die_str)
 	local roll = function() 
 		local v = self.die_mod
 
-		for i = 1, math.abs(self.die_count) do
-			v = v + math.random(self.die_min, self.die_max)
+		for i = 1, mabs(self.die_count) do
+			v = v + mrandom(self.die_min, self.die_max)
 		end
 
 		return v
