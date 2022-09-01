@@ -69,25 +69,20 @@ return function(die_str)
 		return v
 	end
 
-	-- return minimum and maximum values of a roll
-	local range = function()
-		return unpack(self.range)
-	end
-
-	local max = function()
-		return self.range[2]
-	end
-
-	local average = function()
-		return self.average
-	end
-
 	-- the public interface
 	local dice = {
+		-- perform a roll
 		roll = roll,
-		range = range,	
-		average = average,	
-		max = max,
+		-- return minimum and maximum values of a roll
+		range = function() return unpack(self.range) end,	
+		-- return the average value of any roll
+		average = function() return self.average end,
+		-- return the minimum possible value of any roll
+		min = function() return self.range[1] end,
+		-- return the maximum possible value of any roll
+		max = function() return self.range[2] end,
+		-- return the number of hit dice
+		count = function() return die_count end,
 	}
 	
 	-- add __tostring function for debug purposes
