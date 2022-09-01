@@ -82,7 +82,7 @@ return function(die_str)
 		-- return the maximum possible value of any roll
 		max = function() return self.range[2] end,
 		-- return the number of hit dice
-		count = function() return die_count end,
+		count = function() return self.die_count end,
 	}
 	
 	-- add __tostring function for debug purposes

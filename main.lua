@@ -22,8 +22,10 @@ local function generate()
 
     local dice = ndn.dice(die_string)
 
+    local count = dice.count()
     local min, max = dice.range()
     print(tostring(dice) .. " (" .. min .. " ... " .. max .. ")")
+    print('die count: ' .. count)
     local avg = 0
     local values = {}
 
